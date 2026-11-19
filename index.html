@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Freezer Kitchen · 12 containers, 30 baby meals</title>
+<meta name="description" content="Batch-cook 12 freezer containers and mix them into 30 quick meals for a one-year-old.">
+<meta name="theme-color" content="#F6F1EA">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231F1B17'/%3E%3Crect x='14' y='14' width='16' height='16' rx='3' fill='%23C98A3D'/%3E%3Crect x='34' y='14' width='16' height='16' rx='3' fill='%23B4472F'/%3E%3Crect x='14' y='34' width='16' height='16' rx='3' fill='%237A9A6E'/%3E%3Crect x='34' y='34' width='16' height='16' rx='3' fill='%234E6577'/%3E%3C/svg%3E">
+<style>
+:root{--ink:#1F1B17;--paper:#F6F1EA;--card:#FFFDF9;--muted:#6E645A;--line:#E3D9CC;--accent:#B4472F}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 "Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+.serif,h1,h2,h3{font-family:"Fraunces",Georgia,"Times New Roman",serif;font-weight:600;letter-spacing:-.015em}
+header.hero{padding:56px 0 36px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+.hero h1{font-size:clamp(44px,10vw,84px);line-height:.95;margin:0 0 18px}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--accent)}
+.hero p{margin:0;max-width:540px;font-size:19px;color:var(--muted)}
+.stats{display:flex;gap:28px;flex-wrap:wrap;margin-top:28px}
+.stat{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.stat b{display:block;font:600 34px/1 "Fraunces",Georgia,serif;color:var(--ink);letter-spacing:0;text-transform:none;margin-bottom:4px}
+nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:22px;overflow-x:auto;padding:14px 16px;scrollbar-width:none}
+nav a{flex:none;text-decoration:none;font-weight:600;font-size:14px;color:var(--muted)}
+nav a:hover{color:var(--ink)}
+section{padding:48px 0 8px;scroll-margin-top:56px}
+h2{font-size:clamp(32px,6vw,46px);line-height:1.05;margin:0 0 8px}
+.lead{margin:0 0 26px;color:var(--muted);font-size:18px;max-width:560px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;counter-reset:s;padding:0;margin:0;list-style:none;border-top:1px solid var(--line)}
+.steps li{padding:16px 14px 16px 0;font-weight:500;border-bottom:1px solid var(--line)}
+.steps li::before{counter-increment:s;content:counter(s,decimal-leading-zero);display:block;font:italic 400 28px/1 "Fraunces",Georgia,serif;color:var(--accent);margin-bottom:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:14px;padding:20px 20px 18px;scroll-margin-top:72px;transition:box-shadow .3s}
+.card:target{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--c),0 12px 30px rgba(31,27,23,.12)}
+.card .top{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+.num{flex:none;font:italic 400 30px/1 "Fraunces",Georgia,serif;color:var(--c);min-width:34px}
+.card h3{margin:0;font-size:24px;line-height:1.1}
+.card .tag{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--c);margin-top:4px}
+.body h4{margin:16px 0 8px;font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:600}
+.body h4:first-child{margin-top:0}
+.body ol{margin:0;padding-left:20px}
+.body ol li{margin:5px 0;padding-left:2px}
+.body ol li::marker{color:var(--c);font-weight:600}
+.contents{font:500 19px/1.35 "Fraunces",Georgia,serif;margin:0 0 4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-weight:500;font-size:14px;padding:4px 11px 4px 5px;border-radius:999px;background:color-mix(in srgb,var(--cc) 13%,#fff);color:color-mix(in srgb,var(--cc) 80%,#000)}
+.chip i{font-style:normal;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--cc);color:#fff;font-size:11px;font-weight:600}
+.chip.plain{background:#EFE8DE;color:var(--ink);padding-left:11px}
+.keeps{margin:16px 0 0;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 20px}
+.filters button{font:500 14px/1 "Inter",system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:9px 14px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.filters button::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--fc,var(--ink))}
+.filters button[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.card.hide{display:none}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+.panel h3{margin:0 0 8px;font-size:24px}
+.panel ul{margin:0;padding:0;list-style:none}
+.panel li{padding:10px 0;border-top:1px solid var(--line)}
+.panel li:first-child{border-top:0}
+.panel li b{font-weight:600}
+footer{margin-top:56px;border-top:1px solid var(--line);color:var(--muted);padding:24px 0 40px;font-size:14px}
+@media print{nav,.filters{display:none}.card{break-inside:avoid}}
+</style></head><body>
+<header class="hero"><div class="wrap">
+<p class="eyebrow">Batch cooking · 12 months+</p>
+<h1>Freezer <em>Kitchen</em></h1>
+<p>Cook 12 freezer containers once. Mix the cubes into 30 meals for your one-year-old in 5–15 minutes.</p>
+<div class="stats"><div class="stat"><b>12</b>containers</div><div class="stat"><b>30</b>meals</div><div class="stat"><b>3</b>months frozen</div></div>
+</div></header>
+<nav><div class="wrap"><a href="#how">How it works</a><a href="#containers">Containers</a><a href="#recipes">Recipes</a><a href="#safety">Safety</a></div></nav>
+<main class="wrap">
+<section id="how"><h2>How it works</h2><p class="lead">No salt, no sugar. Everything cooked until soft.</p>
+<ol class="steps"><li>Cook each container's mix</li><li>Cool it within 1 hour</li><li>Freeze in ice cube trays</li><li>Bag, label and date the cubes</li><li>Mix about 2 cubes of each, heat until piping hot</li><li>Cool and serve</li></ol></section>
+<section id="containers"><h2>The 12 containers</h2><p class="lead">What goes in each one and how to prep it.</p>
+<div class="grid"><article class="card" id="c1" style="--c:#7A9A6E">
+<div class="top"><span class="num">01</span><div><h3>Green veg</h3><div class="tag">Container</div></div></div>
+<div class="body"><h4>Inside</h4><p class="contents">Peas, broccoli, green beans</p><h4>How to prep</h4><ol><li>Steam peas, broccoli florets and green beans for 5–6 minutes until soft.</li><li>Chop small or mash lightly.</li></ol>
+<p class="keeps">Cool within 1 hour · ice cube trays · bag, label &amp; date · keeps 3 months</p></div></article><article class="card" id="c2" style="--c:#A0673F">
+<div class="top"><span class="num">02</span><div><h3>Root veg</h3><div class="tag">Container</div></div></div>
+<div class="body"><h4>Inside</h4><p class="contents">Carrot, parsnip, swede</p><h4>How to prep</h4><ol><li>Peel and dice carrot, parsnip and swede.</li><li>Steam or boil for about 15 minutes until soft.</li><li>Mash or chop into small pieces.</li></ol>
+<p class="keeps">Cool within 1 hour · ice cube trays · bag, label &amp; date · keeps 3 months</p></div></article><article class="card" id="c3" style="--c:#C98A3D">
+<div class="top"><span class="num">03</span><div><h3>Orange mash</h3><div class="tag">Container</div></div></div>
+<div class="body"><h4>Inside</h4><p class="contents">Sweet potato, butternut squash</p><h4>How to prep</h4><ol><li>Roast sweet potato and butternut squash at 200 °C for about 40 minutes.</li><li>Scoop out the flesh and mash.</li></ol>
+<p class="keeps">Cool within 1 hour · ice cube trays · bag, label &amp; date · keeps 3 months</p></div></article><article class="card" id="c4" style="--c:#3F5E4C">
+<div class="top"><span class="num">04</span><div><h3>Leafy greens</h3><div class="tag">Container</div></div></div>
+<div class="body"><h4>Inside</h4><p class="contents">Spinach, kale</p><h4>How to prep</h4><ol><li>Wilt spinach and kale in a pan with a splash of water for 2–3 minutes.</li><li>Squeeze out the water and chop very fine.</li></ol>
+<p class="keeps">Cool within 1 hour · ice cube trays · bag, label &amp; date · keeps 3 months</p></div></article><article class="card" id="c5" style="--c:#B8962E">
+<div class="top"><span class="num">05</span><div><h3>Sunny veg</h3><div class="tag">Container</div></div></div>
+<div class="body"><h4>Inside</h4><p class="contents">Sweetcorn, peppers, courgette</p><h4>How to prep</h4><ol><li>Dice courgette and peppers and soften in a little oil for 8–10 minutes.</li><li>Stir in the sweetcorn and mash lightly.</li></ol>
+<p class="keeps">Cool within 1 hour · ice cube trays · bag, label &amp; date · keeps 3 months</p></div></article><article class="card" id="c6" style="--c:#B4472F">
+<div class="top"><span class="num">06</span><div><h3>Red sauce</h3><div class="tag">Container</div></div></div>
+<div class="body"><h4>Inside</h4><p class="contents">Tomato, onion, garlic</p><h4>How to prep</h4><ol><li>Soften chopped onion and garlic in olive oil.</li><li>Add no-salt tinned chopped tomatoes and simmer for 20 minutes.</li><li>Blend smooth.</li></ol>
+<p class="keeps">Cool within 1 hour · ice cube trays · bag, label &amp; date · keeps 3 months</p></div></article><article class="card" id="c7" style="--c:#7D5A7B">
+<div class="top"><span class="num">07</span><div><h3>Cauli cheese</h3><div class="tag">Container</div></div></div>
+<div class="body"><h4>Inside</h4><p class="contents">Cauliflower, cheese sauce</p><h4>How to prep</h4><ol><li>Boil cauliflower until soft.</li><li>Make a white sauce with butter, flour and milk, then stir in mild cheddar.</li><li>Blend the cauliflower into the sauce.</li></ol>
+<p class="keeps">Cool within 1 hour · ice cube trays · bag, label &amp; date · keeps 3 months</p></div></article><article class="card" id="c8" style="--c:#C27C62">
+<div class="top"><span class="num">08</span><div><h3>Chicken</h3><div class="tag">Container</div></div></div>
+<div class="body"><h4>Inside</h4><p class="contents">Shredded chicken</p><h4>How to prep</h4><ol><li>Poach chicken thighs in water for about 20 minutes until cooked through.</li><li>Shred very fine.</li></ol>
+<p class="keeps">Cool within 1 hour · ice cube trays · bag, label &amp; date · keeps 3 months</p></div></article><article class="card" id="c9" style="--c:#7A2E2E">
+<div class="top"><span class="num">09</span><div><h3>Beef mince</h3><div class="tag">Container</div></div></div>
+<div class="body"><h4>Inside</h4><p class="contents">Beef mince</p><h4>How to prep</h4><ol><li>Brown in a dry pan, breaking it up small, until no pink is left.</li><li>Drain off the fat.</li></ol>
+<p class="keeps">Cool within 1 hour · ice cube trays · bag, label &amp; date · keeps 3 months</p></div></article><article class="card" id="c10" style="--c:#8C7A68">
+<div class="top"><span class="num">10</span><div><h3>Turkey mince</h3><div class="tag">Container</div></div></div>
+<div class="body"><h4>Inside</h4><p class="contents">Turkey mince</p><h4>How to prep</h4><ol><li>Cook like the beef until no pink is left.</li><li>Stir in a spoon of red sauce so it stays moist.</li></ol>
+<p class="keeps">Cool within 1 hour · ice cube trays · bag, label &amp; date · keeps 3 months</p></div></article><article class="card" id="c11" style="--c:#4E6577">
+<div class="top"><span class="num">11</span><div><h3>Beans &amp; lentils</h3><div class="tag">Container</div></div></div>
+<div class="body"><h4>Inside</h4><p class="contents">Lentils, chickpeas, kidney &amp; butter beans</p><h4>How to prep</h4><ol><li>Simmer red lentils for 15–20 minutes until soft.</li><li>Rinse no-salt tinned chickpeas and beans.</li><li>Mash everything together.</li></ol>
+<p class="keeps">Cool within 1 hour · ice cube trays · bag, label &amp; date · keeps 3 months</p></div></article><article class="card" id="c12" style="--c:#A33B5C">
+<div class="top"><span class="num">12</span><div><h3>Fruit mix</h3><div class="tag">Container</div></div></div>
+<div class="body"><h4>Inside</h4><p class="contents">Apple, pear, mango, berries</p><h4>How to prep</h4><ol><li>Peel and chop apple and pear, then stew with a splash of water for 10 minutes.</li><li>Stir in mango and berries and mash.</li></ol>
+<p class="keeps">Cool within 1 hour · ice cube trays · bag, label &amp; date · keeps 3 months</p></div></article></div></section>
+<section id="recipes"><h2>30 meals</h2><p class="lead">Tap a container to see how it's made.</p>
+<div class="filters"><button data-f="all" aria-pressed="true">All 30</button><button data-f="Chicken" aria-pressed="false" style="--fc:#C27C62">Chicken</button><button data-f="Beef" aria-pressed="false" style="--fc:#7A2E2E">Beef</button><button data-f="Turkey" aria-pressed="false" style="--fc:#8C7A68">Turkey</button><button data-f="Beans &amp; lentils" aria-pressed="false" style="--fc:#4E6577">Beans &amp; lentils</button><button data-f="Veggie" aria-pressed="false" style="--fc:#5E7F5E">Veggie</button><button data-f="Sweet" aria-pressed="false" style="--fc:#A33B5C">Sweet</button></div>
+<div class="grid"><article class="card" id="r1" data-cat="Chicken" style="--c:#C27C62">
+<div class="top"><span class="num">01</span><div><h3>Chicken Korma</h3><div class="tag">Chicken · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c8" style="--cc:#C27C62"><i>8</i>Chicken</a><a class="chip" href="#c3" style="--cc:#C98A3D"><i>3</i>Orange mash</a><span class="chip plain">Pinch of cumin</span><span class="chip plain">Yoghurt (after heating)</span><span class="chip plain">Fresh rice</span></div><h4>Method</h4><ol><li>Cook a small handful of rice for 10–12 minutes.</li><li>Put 2 cubes each of chicken and orange mash in a pan with a splash of water, plus a pinch of cumin.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Take off the heat and stir in a spoon of plain yoghurt.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r2" data-cat="Chicken" style="--c:#C27C62">
+<div class="top"><span class="num">02</span><div><h3>Chicken Cheesy Bake</h3><div class="tag">Chicken · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c8" style="--cc:#C27C62"><i>8</i>Chicken</a><a class="chip" href="#c7" style="--cc:#7D5A7B"><i>7</i>Cauli cheese</a><a class="chip" href="#c1" style="--cc:#7A9A6E"><i>1</i>Green veg</a><span class="chip plain">Fresh mash</span></div><h4>Method</h4><ol><li>Boil peeled potato chunks for 15 minutes and mash with a little milk.</li><li>Put 2 cubes each of chicken, cauli cheese and green veg in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Spoon over the mash and stir through.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r3" data-cat="Chicken" style="--c:#C27C62">
+<div class="top"><span class="num">03</span><div><h3>Chicken Veg Rice</h3><div class="tag">Chicken · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c8" style="--cc:#C27C62"><i>8</i>Chicken</a><a class="chip" href="#c1" style="--cc:#7A9A6E"><i>1</i>Green veg</a><a class="chip" href="#c5" style="--cc:#B8962E"><i>5</i>Sunny veg</a><span class="chip plain">Fresh rice</span></div><h4>Method</h4><ol><li>Cook a small handful of rice for 10–12 minutes.</li><li>Put 2 cubes each of chicken, green veg and sunny veg in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Stir through the rice.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r4" data-cat="Chicken" style="--c:#C27C62">
+<div class="top"><span class="num">04</span><div><h3>Chicken Casserole</h3><div class="tag">Chicken · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c8" style="--cc:#C27C62"><i>8</i>Chicken</a><a class="chip" href="#c2" style="--cc:#A0673F"><i>2</i>Root veg</a><a class="chip" href="#c6" style="--cc:#B4472F"><i>6</i>Red sauce</a><span class="chip plain">Fresh mash</span></div><h4>Method</h4><ol><li>Boil peeled potato chunks for 15 minutes and mash with a little milk.</li><li>Put 2 cubes each of chicken, root veg and red sauce in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Serve with the mash.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r5" data-cat="Chicken" style="--c:#C27C62">
+<div class="top"><span class="num">05</span><div><h3>Chicken Tomato Pasta</h3><div class="tag">Chicken · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c8" style="--cc:#C27C62"><i>8</i>Chicken</a><a class="chip" href="#c6" style="--cc:#B4472F"><i>6</i>Red sauce</a><a class="chip" href="#c1" style="--cc:#7A9A6E"><i>1</i>Green veg</a><span class="chip plain">Fresh small pasta</span></div><h4>Method</h4><ol><li>Cook small pasta shapes for 8–10 minutes.</li><li>Put 2 cubes each of chicken, red sauce and green veg in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Toss with the pasta.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r6" data-cat="Chicken" style="--c:#C27C62">
+<div class="top"><span class="num">06</span><div><h3>Chicken Quinoa Bowl</h3><div class="tag">Chicken · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c8" style="--cc:#C27C62"><i>8</i>Chicken</a><a class="chip" href="#c5" style="--cc:#B8962E"><i>5</i>Sunny veg</a><a class="chip" href="#c4" style="--cc:#3F5E4C"><i>4</i>Leafy greens</a><span class="chip plain">Fresh quinoa</span></div><h4>Method</h4><ol><li>Rinse and simmer quinoa for 12–15 minutes.</li><li>Put 2 cubes each of chicken, sunny veg and leafy greens in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Stir through the quinoa.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r7" data-cat="Chicken" style="--c:#C27C62">
+<div class="top"><span class="num">07</span><div><h3>Chicken &amp; Bean Stew</h3><div class="tag">Chicken · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c8" style="--cc:#C27C62"><i>8</i>Chicken</a><a class="chip" href="#c11" style="--cc:#4E6577"><i>11</i>Beans &amp; lentils</a><a class="chip" href="#c6" style="--cc:#B4472F"><i>6</i>Red sauce</a><a class="chip" href="#c5" style="--cc:#B8962E"><i>5</i>Sunny veg</a></div><h4>Method</h4><ol><li>Put 2 cubes each of chicken, beans &amp; lentils, red sauce and sunny veg in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Mash a little if it&#x27;s chunky.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r8" data-cat="Beef" style="--c:#7A2E2E">
+<div class="top"><span class="num">08</span><div><h3>Beef Bolognese</h3><div class="tag">Beef · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c9" style="--cc:#7A2E2E"><i>9</i>Beef mince</a><a class="chip" href="#c6" style="--cc:#B4472F"><i>6</i>Red sauce</a><a class="chip" href="#c4" style="--cc:#3F5E4C"><i>4</i>Leafy greens</a><span class="chip plain">Fresh small pasta</span></div><h4>Method</h4><ol><li>Cook small pasta shapes for 8–10 minutes.</li><li>Put 2 cubes each of beef mince, red sauce and leafy greens in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Toss with the pasta.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r9" data-cat="Beef" style="--c:#7A2E2E">
+<div class="top"><span class="num">09</span><div><h3>Cottage Pie</h3><div class="tag">Beef · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c9" style="--cc:#7A2E2E"><i>9</i>Beef mince</a><a class="chip" href="#c2" style="--cc:#A0673F"><i>2</i>Root veg</a><a class="chip" href="#c1" style="--cc:#7A9A6E"><i>1</i>Green veg</a><a class="chip" href="#c6" style="--cc:#B4472F"><i>6</i>Red sauce</a><span class="chip plain">Fresh mash on top</span></div><h4>Method</h4><ol><li>Boil peeled potato chunks for 15 minutes and mash with a little milk.</li><li>Put 2 cubes each of beef mince, root veg, green veg and red sauce in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Spoon into a bowl and top with the mash.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r10" data-cat="Beef" style="--c:#7A2E2E">
+<div class="top"><span class="num">10</span><div><h3>Beef Chilli</h3><div class="tag">Beef · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c9" style="--cc:#7A2E2E"><i>9</i>Beef mince</a><a class="chip" href="#c11" style="--cc:#4E6577"><i>11</i>Beans &amp; lentils</a><a class="chip" href="#c6" style="--cc:#B4472F"><i>6</i>Red sauce</a><a class="chip" href="#c5" style="--cc:#B8962E"><i>5</i>Sunny veg</a><span class="chip plain">Pinch of paprika</span><span class="chip plain">Fresh rice</span></div><h4>Method</h4><ol><li>Cook a small handful of rice for 10–12 minutes.</li><li>Put 2 cubes each of beef mince, beans &amp; lentils, red sauce and sunny veg in a pan with a splash of water, plus a pinch of paprika.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Serve with the rice.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r11" data-cat="Beef" style="--c:#7A2E2E">
+<div class="top"><span class="num">11</span><div><h3>Beef Stew</h3><div class="tag">Beef · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c9" style="--cc:#7A2E2E"><i>9</i>Beef mince</a><a class="chip" href="#c2" style="--cc:#A0673F"><i>2</i>Root veg</a><a class="chip" href="#c4" style="--cc:#3F5E4C"><i>4</i>Leafy greens</a><span class="chip plain">Fresh mash</span></div><h4>Method</h4><ol><li>Boil peeled potato chunks for 15 minutes and mash with a little milk.</li><li>Put 2 cubes each of beef mince, root veg and leafy greens in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Serve with the mash.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r12" data-cat="Beef" style="--c:#7A2E2E">
+<div class="top"><span class="num">12</span><div><h3>Beef &amp; Squash Rice</h3><div class="tag">Beef · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c9" style="--cc:#7A2E2E"><i>9</i>Beef mince</a><a class="chip" href="#c3" style="--cc:#C98A3D"><i>3</i>Orange mash</a><a class="chip" href="#c1" style="--cc:#7A9A6E"><i>1</i>Green veg</a><span class="chip plain">Fresh rice</span></div><h4>Method</h4><ol><li>Cook a small handful of rice for 10–12 minutes.</li><li>Put 2 cubes each of beef mince, orange mash and green veg in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Stir through the rice.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r13" data-cat="Beef" style="--c:#7A2E2E">
+<div class="top"><span class="num">13</span><div><h3>Mild Beef Curry</h3><div class="tag">Beef · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c9" style="--cc:#7A2E2E"><i>9</i>Beef mince</a><a class="chip" href="#c3" style="--cc:#C98A3D"><i>3</i>Orange mash</a><a class="chip" href="#c1" style="--cc:#7A9A6E"><i>1</i>Green veg</a><span class="chip plain">Pinch of cumin</span><span class="chip plain">Fresh rice</span></div><h4>Method</h4><ol><li>Cook a small handful of rice for 10–12 minutes.</li><li>Put 2 cubes each of beef mince, orange mash and green veg in a pan with a splash of water, plus a pinch of cumin.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Serve with the rice.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r14" data-cat="Turkey" style="--c:#8C7A68">
+<div class="top"><span class="num">14</span><div><h3>Turkey Bolognese</h3><div class="tag">Turkey · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c10" style="--cc:#8C7A68"><i>10</i>Turkey mince</a><a class="chip" href="#c6" style="--cc:#B4472F"><i>6</i>Red sauce</a><a class="chip" href="#c5" style="--cc:#B8962E"><i>5</i>Sunny veg</a><span class="chip plain">Fresh small pasta</span></div><h4>Method</h4><ol><li>Cook small pasta shapes for 8–10 minutes.</li><li>Put 2 cubes each of turkey mince, red sauce and sunny veg in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Toss with the pasta.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r15" data-cat="Turkey" style="--c:#8C7A68">
+<div class="top"><span class="num">15</span><div><h3>Turkey Shepherd&#x27;s Pie</h3><div class="tag">Turkey · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c10" style="--cc:#8C7A68"><i>10</i>Turkey mince</a><a class="chip" href="#c2" style="--cc:#A0673F"><i>2</i>Root veg</a><a class="chip" href="#c1" style="--cc:#7A9A6E"><i>1</i>Green veg</a><span class="chip plain">Fresh mash on top</span></div><h4>Method</h4><ol><li>Boil peeled potato chunks for 15 minutes and mash with a little milk.</li><li>Put 2 cubes each of turkey mince, root veg and green veg in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Spoon into a bowl and top with the mash.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r16" data-cat="Turkey" style="--c:#8C7A68">
+<div class="top"><span class="num">16</span><div><h3>Turkey Couscous</h3><div class="tag">Turkey · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c10" style="--cc:#8C7A68"><i>10</i>Turkey mince</a><a class="chip" href="#c5" style="--cc:#B8962E"><i>5</i>Sunny veg</a><a class="chip" href="#c3" style="--cc:#C98A3D"><i>3</i>Orange mash</a><span class="chip plain">Pinch of cinnamon</span><span class="chip plain">Fresh couscous</span></div><h4>Method</h4><ol><li>Pour boiling water over couscous, cover for 5 minutes, fluff with a fork.</li><li>Put 2 cubes each of turkey mince, sunny veg and orange mash in a pan with a splash of water, plus a pinch of cinnamon.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Stir through the couscous.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r17" data-cat="Turkey" style="--c:#8C7A68">
+<div class="top"><span class="num">17</span><div><h3>Cheesy Turkey Pasta</h3><div class="tag">Turkey · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c10" style="--cc:#8C7A68"><i>10</i>Turkey mince</a><a class="chip" href="#c7" style="--cc:#7D5A7B"><i>7</i>Cauli cheese</a><a class="chip" href="#c4" style="--cc:#3F5E4C"><i>4</i>Leafy greens</a><span class="chip plain">Fresh small pasta</span></div><h4>Method</h4><ol><li>Cook small pasta shapes for 8–10 minutes.</li><li>Put 2 cubes each of turkey mince, cauli cheese and leafy greens in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Toss with the pasta.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r18" data-cat="Turkey" style="--c:#8C7A68">
+<div class="top"><span class="num">18</span><div><h3>Turkey Root Mash</h3><div class="tag">Turkey · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c10" style="--cc:#8C7A68"><i>10</i>Turkey mince</a><a class="chip" href="#c2" style="--cc:#A0673F"><i>2</i>Root veg</a><a class="chip" href="#c3" style="--cc:#C98A3D"><i>3</i>Orange mash</a></div><h4>Method</h4><ol><li>Put 2 cubes each of turkey mince, root veg and orange mash in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Mash together.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r19" data-cat="Turkey" style="--c:#8C7A68">
+<div class="top"><span class="num">19</span><div><h3>Turkey Tomato Rice</h3><div class="tag">Turkey · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c10" style="--cc:#8C7A68"><i>10</i>Turkey mince</a><a class="chip" href="#c6" style="--cc:#B4472F"><i>6</i>Red sauce</a><a class="chip" href="#c1" style="--cc:#7A9A6E"><i>1</i>Green veg</a><span class="chip plain">Fresh rice</span></div><h4>Method</h4><ol><li>Cook a small handful of rice for 10–12 minutes.</li><li>Put 2 cubes each of turkey mince, red sauce and green veg in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Stir through the rice.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r20" data-cat="Beans &amp; lentils" style="--c:#4E6577">
+<div class="top"><span class="num">20</span><div><h3>Lentil Dhal</h3><div class="tag">Beans &amp; lentils · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c11" style="--cc:#4E6577"><i>11</i>Beans &amp; lentils</a><a class="chip" href="#c3" style="--cc:#C98A3D"><i>3</i>Orange mash</a><span class="chip plain">Pinch of cumin</span><span class="chip plain">Fresh rice</span></div><h4>Method</h4><ol><li>Cook a small handful of rice for 10–12 minutes.</li><li>Put 2 cubes each of beans &amp; lentils and orange mash in a pan with a splash of water, plus a pinch of cumin.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Serve with the rice.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r21" data-cat="Beans &amp; lentils" style="--c:#4E6577">
+<div class="top"><span class="num">21</span><div><h3>Veggie Chilli</h3><div class="tag">Beans &amp; lentils · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c11" style="--cc:#4E6577"><i>11</i>Beans &amp; lentils</a><a class="chip" href="#c5" style="--cc:#B8962E"><i>5</i>Sunny veg</a><a class="chip" href="#c6" style="--cc:#B4472F"><i>6</i>Red sauce</a><span class="chip plain">Pinch of paprika</span><span class="chip plain">Fresh rice</span></div><h4>Method</h4><ol><li>Cook a small handful of rice for 10–12 minutes.</li><li>Put 2 cubes each of beans &amp; lentils, sunny veg and red sauce in a pan with a splash of water, plus a pinch of paprika.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Serve with the rice.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r22" data-cat="Beans &amp; lentils" style="--c:#4E6577">
+<div class="top"><span class="num">22</span><div><h3>Sweet Potato Lentil Stew</h3><div class="tag">Beans &amp; lentils · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c11" style="--cc:#4E6577"><i>11</i>Beans &amp; lentils</a><a class="chip" href="#c3" style="--cc:#C98A3D"><i>3</i>Orange mash</a><a class="chip" href="#c4" style="--cc:#3F5E4C"><i>4</i>Leafy greens</a><a class="chip" href="#c6" style="--cc:#B4472F"><i>6</i>Red sauce</a></div><h4>Method</h4><ol><li>Put 2 cubes each of beans &amp; lentils, orange mash, leafy greens and red sauce in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Mash a little if it&#x27;s chunky.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r23" data-cat="Beans &amp; lentils" style="--c:#4E6577">
+<div class="top"><span class="num">23</span><div><h3>Bean Pasta</h3><div class="tag">Beans &amp; lentils · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c11" style="--cc:#4E6577"><i>11</i>Beans &amp; lentils</a><a class="chip" href="#c6" style="--cc:#B4472F"><i>6</i>Red sauce</a><a class="chip" href="#c4" style="--cc:#3F5E4C"><i>4</i>Leafy greens</a><span class="chip plain">Fresh small pasta</span></div><h4>Method</h4><ol><li>Cook small pasta shapes for 8–10 minutes.</li><li>Put 2 cubes each of beans &amp; lentils, red sauce and leafy greens in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Toss with the pasta.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r24" data-cat="Beans &amp; lentils" style="--c:#4E6577">
+<div class="top"><span class="num">24</span><div><h3>Lentil Bolognese</h3><div class="tag">Beans &amp; lentils · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c11" style="--cc:#4E6577"><i>11</i>Beans &amp; lentils</a><a class="chip" href="#c6" style="--cc:#B4472F"><i>6</i>Red sauce</a><a class="chip" href="#c2" style="--cc:#A0673F"><i>2</i>Root veg</a><span class="chip plain">Fresh small pasta</span></div><h4>Method</h4><ol><li>Cook small pasta shapes for 8–10 minutes.</li><li>Put 2 cubes each of beans &amp; lentils, red sauce and root veg in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Toss with the pasta.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r25" data-cat="Veggie" style="--c:#5E7F5E">
+<div class="top"><span class="num">25</span><div><h3>Cauli Cheese Pasta</h3><div class="tag">Veggie · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c7" style="--cc:#7D5A7B"><i>7</i>Cauli cheese</a><a class="chip" href="#c1" style="--cc:#7A9A6E"><i>1</i>Green veg</a><span class="chip plain">Fresh small pasta</span></div><h4>Method</h4><ol><li>Cook small pasta shapes for 8–10 minutes.</li><li>Put 2 cubes each of cauli cheese and green veg in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Toss with the pasta.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r26" data-cat="Veggie" style="--c:#5E7F5E">
+<div class="top"><span class="num">26</span><div><h3>Green Risotto</h3><div class="tag">Veggie · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c1" style="--cc:#7A9A6E"><i>1</i>Green veg</a><a class="chip" href="#c4" style="--cc:#3F5E4C"><i>4</i>Leafy greens</a><a class="chip" href="#c7" style="--cc:#7D5A7B"><i>7</i>Cauli cheese</a><span class="chip plain">Fresh rice</span></div><h4>Method</h4><ol><li>Cook a small handful of rice for 10–12 minutes.</li><li>Put 2 cubes each of green veg, leafy greens and cauli cheese in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Stir through the rice until creamy.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r27" data-cat="Veggie" style="--c:#5E7F5E">
+<div class="top"><span class="num">27</span><div><h3>Cheesy Veg Mash</h3><div class="tag">Veggie · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c7" style="--cc:#7D5A7B"><i>7</i>Cauli cheese</a><a class="chip" href="#c2" style="--cc:#A0673F"><i>2</i>Root veg</a><a class="chip" href="#c1" style="--cc:#7A9A6E"><i>1</i>Green veg</a><span class="chip plain">Fresh mash</span></div><h4>Method</h4><ol><li>Boil peeled potato chunks for 15 minutes and mash with a little milk.</li><li>Put 2 cubes each of cauli cheese, root veg and green veg in a pan with a splash of water.</li><li>Cover and heat for 5–7 minutes, stirring, until piping hot all the way through.</li><li>Stir into the mash.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r28" data-cat="Sweet" style="--c:#A33B5C">
+<div class="top"><span class="num">28</span><div><h3>Fruity Porridge</h3><div class="tag">Sweet · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c12" style="--cc:#A33B5C"><i>12</i>Fruit mix</a><span class="chip plain">Pinch of cinnamon</span><span class="chip plain">Fresh porridge oats</span></div><h4>Method</h4><ol><li>Simmer oats in milk for 3–5 minutes.</li><li>Thaw 2 cubes of fruit mix in a small pan or the microwave until piping hot.</li><li>Add the pinch of cinnamon.</li><li>Stir the fruit through the porridge.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r29" data-cat="Sweet" style="--c:#A33B5C">
+<div class="top"><span class="num">29</span><div><h3>Fruit Yoghurt Bowl</h3><div class="tag">Sweet · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c12" style="--cc:#A33B5C"><i>12</i>Fruit mix</a><span class="chip plain">Plain yoghurt</span></div><h4>Method</h4><ol><li>Thaw 2 cubes of fruit mix in a small pan or the microwave until piping hot.</li><li>Thaw the fruit, warm briefly, cool, then swirl into yoghurt.</li><li>Let it cool before serving.</li></ol></div></article><article class="card" id="r30" data-cat="Sweet" style="--c:#A33B5C">
+<div class="top"><span class="num">30</span><div><h3>Fruity Rice Pudding</h3><div class="tag">Sweet · 5–15 min</div></div></div>
+<div class="body"><h4>You need</h4><div class="chips"><a class="chip" href="#c12" style="--cc:#A33B5C"><i>12</i>Fruit mix</a><span class="chip plain">Pinch of cinnamon</span><span class="chip plain">Rice cooked in milk</span></div><h4>Method</h4><ol><li>Simmer cooked rice in milk for 10 minutes until creamy.</li><li>Thaw 2 cubes of fruit mix in a small pan or the microwave until piping hot.</li><li>Add the pinch of cinnamon.</li><li>Swirl the fruit through the rice pudding.</li><li>Let it cool before serving.</li></ol></div></article></div></section>
+<section id="safety"><h2>Safety</h2><p class="lead">The few rules that matter.</p><div class="two">
+<div class="panel"><h3>Don't freeze</h3><ul>
+<li><b>Cooked egg</b> goes rubbery. Make it fresh.</li>
+<li><b>Cucumber, lettuce, raw tomato</b> go mushy. Serve fresh.</li>
+<li><b>Potato chunks</b> go grainy. Freeze as mash.</li>
+<li><b>Yoghurt and soft cheese</b> separate. Add fresh after heating.</li></ul></div>
+<div class="panel"><h3>Stay safe</h3><ul>
+<li><b>Reheat</b> until piping hot, then cool before serving.</li>
+<li><b>Never refreeze</b> food that has thawed.</li>
+<li><b>Rice:</b> cool within 1 hour, reheat only once.</li>
+<li><b>No honey</b> before age 1, <b>no whole nuts</b>.</li>
+<li><b>Quarter</b> grapes and cherry tomatoes.</li>
+<li><b>No added salt or sugar.</b> Use no-salt tinned beans.</li></ul></div>
+</div></section>
+</main>
+<footer><div class="wrap">Freezer Kitchen · batch-cooking guide for ages 12 months and up. Check with your health visitor about allergies.</div></footer>
+<script>
+const btns=[...document.querySelectorAll('.filters button')];
+const cards=[...document.querySelectorAll('#recipes .card')];
+btns.forEach(b=>b.addEventListener('click',()=>{
+  btns.forEach(x=>x.setAttribute('aria-pressed',x===b));
+  const f=b.dataset.f;
+  cards.forEach(c=>c.classList.toggle('hide',f!=='all'&&c.dataset.cat!==f));
+}));
+function showTarget(instant){
+  const t=location.hash&&document.querySelector(location.hash);
+  if(!t)return;
+  if(t.classList.contains('hide'))btns[0].click();
+  t.scrollIntoView({behavior:instant?'instant':'smooth',block:'start'});
+}
+addEventListener('hashchange',()=>showTarget(false));
+const land=()=>showTarget(true);
+(document.fonts?document.fonts.ready:Promise.resolve()).then(()=>{land();setTimeout(land,300);});
+</script></body></html>
