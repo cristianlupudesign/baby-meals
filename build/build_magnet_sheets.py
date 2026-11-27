@@ -1,99 +1,116 @@
-"""Fridge magnet sheets sized to Cris's magnetic sheets.
-Sheet A 30x87 cm: recipes 1-27.  Sheet B 28x67 cm: recipes 28-30, 12 containers, info + wipe-clean tiles.
-All tiles 90 x 90 mm on a shared grid, so every cut runs edge to edge."""
-import os, sys
+"""Fridge magnet sheets sized to Cris's magnetic sheets. 8 x 8 cm tiles, big text, no small print.
+Sheet A 30x87 cm: recipes 1-30 (3 x 10).
+Sheet B 28x67 cm: title, how it works, don't freeze, 12 containers (3 x 5)."""
+import os, sys, tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from data import BASE, CONTAINERS, C, CATS, RECIPES, FRESH, ingredient_lines
-from build_print import (fit, spaced, qr, wrap, dotnum, INK, PAPER, MUTED, LINE, ACC, OUT)
+from build_print import fit, qr, wrap, dotnum, INK, PAPER, MUTED, LINE, OUT
 from reportlab.pdfgen import canvas
 from reportlab.lib.colors import HexColor, white
 from reportlab.lib.units import mm, cm
 from reportlab.pdfbase.pdfmetrics import stringWidth
 
-T = 90 * mm          # tile size
-PAD = 6 * mm         # inner padding
-INSET = 2.6 * mm     # header band inset (keeps colour away from the cut line)
-HB = 14 * mm         # header band height
+T = 80 * mm          # tile size
+PAD = 5 * mm         # inner padding
+INSET = 2.4 * mm     # header band inset (keeps colour off the cut line)
+HB = 12.5 * mm       # header band height
+ROSE = HexColor("#E0A48F")
 
 
-# ---------- shared tile pieces ----------
 def base(c, x, y):
     c.setFillColor(PAPER); c.rect(x, y, T, T, fill=1, stroke=0)
 
 
-def header(c, x, y, col, big, label, name, big_is_num=True):
+def band(c, x, y, col):
     top = y + T
     c.setFillColor(col); c.roundRect(x + INSET, top - INSET - HB, T - 2 * INSET, HB, 2 * mm, fill=1, stroke=0)
-    bx = x + INSET + 3.2 * mm; cy = top - INSET - HB / 2
-    if big_is_num:
-        c.setFillColor(white); c.saveState(); c.translate(bx, cy - 6); c.skew(0, 12)
-        c.setFont("SerifR", 19); c.drawString(0, 0, big); c.restoreState()
-        tx = bx + 11 * mm
-    else:
-        c.setFillColor(white); c.circle(bx + 3.2 * mm, cy, 3.2 * mm, fill=1, stroke=0)
-        c.setFillColor(col); c.setFont("SansS", 9 if len(big) < 2 else 8)
-        c.drawCentredString(bx + 3.2 * mm, cy - 3.1, big)
-        tx = bx + 8.8 * mm
-    tw = x + T - INSET - 3 * mm - tx
-    spaced(c, tx, cy + 6.6, label.upper(), "SansS", 5.6, 1.0, HexColor("#FFFFFF"))
-    fs = fit(name, 13.5, tw, "Serif")
-    c.setFillColor(white); c.setFont("Serif", fs); c.drawString(tx, cy - 8.2, name)
-    return top - INSET - HB - 4.2 * mm   # y where body starts
+    return top - INSET - HB / 2   # centre line of band
 
 
-def label(c, x, y, t, col=MUTED):
-    spaced(c, x, y, t, "SansS", 5.6, 1.1, col)
+def header_num(c, x, y, col, num, name):
+    cy = band(c, x, y, col); bx = x + INSET + 3 * mm
+    c.setFillColor(white); c.saveState(); c.translate(bx, cy - 6.3); c.skew(0, 12)
+    c.setFont("SerifR", 19); c.drawString(0, 0, num); c.restoreState()
+    tx = bx + 10.5 * mm; tw = x + T - INSET - 2.5 * mm - tx
+    fs = fit(name, 15, tw, "Serif"); c.setFont("Serif", fs); c.drawString(tx, cy - fs * 0.34, name)
+    return y + T - INSET - HB - 3.6 * mm
 
 
-def numbered(c, x, y, w, steps, col, fs, lead=1.25, measure=False):
-    """Numbered list; returns y after the list."""
-    ind = 3.6 * mm
+def header_dot(c, x, y, col, n, name):
+    cy = band(c, x, y, col); bx = x + INSET + 3 * mm
+    c.setFillColor(white); c.circle(bx + 3.3 * mm, cy, 3.3 * mm, fill=1, stroke=0)
+    c.setFillColor(col); c.setFont("SansS", 10 if n < 10 else 9); c.drawCentredString(bx + 3.3 * mm, cy - 3.5, str(n))
+    tx = bx + 9.4 * mm; tw = x + T - INSET - 2.5 * mm - tx
+    fs = fit(name, 15, tw, "Serif"); c.setFillColor(white); c.setFont("Serif", fs); c.drawString(tx, cy - fs * 0.34, name)
+    return y + T - INSET - HB - 3.6 * mm
+
+
+def header_text(c, x, y, col, name):
+    cy = band(c, x, y, col); tx = x + INSET + 3.5 * mm
+    fs = fit(name, 15, T - 2 * INSET - 7 * mm, "Serif")
+    c.setFillColor(white); c.setFont("Serif", fs); c.drawString(tx, cy - fs * 0.34, name)
+    return y + T - INSET - HB - 3.6 * mm
+
+
+def rule(c, x, y):
+    c.setStrokeColor(LINE); c.setLineWidth(0.7); c.line(x + PAD, y, x + T - PAD, y)
+
+
+def numbered(c, x, y, w, steps, col, fs, lead=1.22, measure=False):
+    ind = 3.8 * mm
     for k, s in enumerate(steps, 1):
         ls = wrap(s, "Sans", fs, w - ind)
         if not measure:
-            c.setFillColor(col); c.setFont("SansS", fs); c.drawString(x, y - fs, f"{k}")
+            c.setFillColor(col); c.setFont("SansS", fs); c.drawString(x, y - fs, str(k))
             c.setFillColor(INK); c.setFont("Sans", fs)
             for j, l in enumerate(ls):
                 c.drawString(x + ind, y - fs - j * fs * lead, l)
-        y -= len(ls) * fs * lead + fs * 0.45
+        y -= len(ls) * fs * lead + fs * 0.5
     return y
 
 
-FIXED = {}      # kind -> uniform font size, filled by a measuring pass
-SEEN = {}
+FIXED, SEEN = {}, {}
 
 
-def fit_numbered(c, x, y, w, steps, col, bottom, fs=8.2, minfs=6.4, kind=None):
-    if kind and kind in FIXED:
+def fit_numbered(c, x, y, w, steps, col, bottom, kind, fs=12.5, minfs=7):
+    if kind in FIXED:
         return numbered(c, x, y, w, steps, col, FIXED[kind])
     while fs > minfs and numbered(c, x, y, w, steps, col, fs, measure=True) < bottom:
-        fs -= 0.2
-    if kind:
-        SEEN[kind] = min(SEEN.get(kind, 99), fs)
+        fs -= 0.1
+    SEEN[kind] = min(SEEN.get(kind, 99), fs)
     return numbered(c, x, y, w, steps, col, fs)
 
 
-# ---------- recipe tile ----------
+# ---------- recipe ----------
+SHORT_FRESH = {
+    "rice": "Cook rice for 10–12 min.",
+    "pasta": "Cook small pasta for 8–10 min.",
+    "mash": "Boil potato for 15 min, mash with a little milk.",
+    "mashtop": "Boil potato for 15 min, mash with a little milk.",
+    "couscous": "Cover couscous with boiling water for 5 min.",
+    "quinoa": "Simmer quinoa for 12–15 min.",
+    "oats": "Simmer oats in milk for 3–5 min.",
+    "ricemilk": "Simmer cooked rice in milk for 10 min.",
+}
+
+
 def short_method(r):
     num, name, cat, cons, extras, fresh, finish = r
     st = []
-    if fresh and FRESH[fresh][1]:
-        st.append(FRESH[fresh][1])
+    if fresh in SHORT_FRESH:
+        st.append(SHORT_FRESH[fresh])
+    if fresh == "mashtop":
+        finish = "Top with the mash."
+    pin = [e.lower() for e in extras if "pinch" in e.lower()]
     if cat == "Sweet":
-        st.append("Heat 2 cubes of fruit mix until piping hot.")
+        st.append("Heat 2 cubes of fruit mix until piping hot" + (f", with a {pin[0]}." if pin else "."))
         if num == 29:
-            finish = "Let it cool, then swirl into the yoghurt."
+            finish = "Cool, then swirl into the yoghurt."
     else:
-        pin = [e.lower() for e in extras if "pinch" in e.lower()]
         sp = f" and a {pin[0]}" if pin else ""
-        st.append(f"Heat 2 cubes of each in a covered pan with a splash of water{sp} "
-                  "for 5–7 min, stirring, until piping hot.")
-    if cat == "Sweet" and any("pinch" in e.lower() for e in extras):
-        st.append("Stir in a pinch of cinnamon.")
+        st.append(f"Heat 2 cubes of each with a splash of water{sp}, covered, 5–7 min until piping hot.")
     st.append(finish)
-    if num != 29:
-        st.append("Let it cool before serving.")
     return st
 
 
@@ -101,237 +118,120 @@ def recipe_tile(c, x, y, r):
     num, name, cat, cons, extras, fresh, finish = r
     col = HexColor(CATS[cat])
     base(c, x, y)
-    yb = header(c, x, y, col, f"{num:02d}", cat, name)
+    yb = header_num(c, x, y, col, f"{num:02d}", name)
     lx = x + PAD; w = T - 2 * PAD
-    label(c, lx, yb - 4, "YOU NEED"); yb -= 7.5
-    items = ingredient_lines(r)
-    rows = (len(items) + 1) // 2; rh = 6 * mm; cw = w / 2
+    items = [(t, cc) for t, cc in ingredient_lines(r) if not t.lower().startswith("pinch")]
+    rows = (len(items) + 1) // 2; rh = 6.4 * mm; cw = w / 2
     for k, (t, cc) in enumerate(items):
         ix = lx + (k // rows) * cw; iy = yb - (k % rows) * rh - rh / 2
+        t = t.replace("Fresh ", "").capitalize() if not cc else t
         if cc:
-            cid = next(cn[0] for cn in CONTAINERS if cn[1] == t)
-            dotnum(c, ix + 2.2 * mm, iy, 2.2 * mm, cid, HexColor(cc), fs=6.6)
+            cid = next(cn[0] for cn in CONTAINERS if cn[1] == ingredient_name(t, cc))
+            dotnum(c, ix + 2.4 * mm, iy, 2.4 * mm, cid, HexColor(cc), fs=7.4)
             c.setFillColor(INK); fnt = "SansS"
         else:
-            c.setStrokeColor(MUTED); c.setLineWidth(0.7); c.circle(ix + 2 * mm, iy, 0.9 * mm, fill=0, stroke=1)
-            c.setFillColor(MUTED); fnt = "Sans"
-        fs = fit(t, 9.8, cw - 6.6 * mm, fnt); c.setFont(fnt, fs); c.drawString(ix + 5.8 * mm, iy - fs * 0.36, t)
-    yb -= rows * rh + 3.2 * mm
-    c.setStrokeColor(LINE); c.setLineWidth(0.6); c.line(lx, yb + 1.4 * mm, lx + w, yb + 1.4 * mm)
-    label(c, lx, yb - 4, "METHOD"); yb -= 8
-    fit_numbered(c, lx, yb, w, short_method(r), col, y + PAD - 1 * mm, fs=10.4, kind='recipe')
+            c.setStrokeColor(INK); c.setLineWidth(0.9); c.circle(ix + 2.4 * mm, iy, 1.2 * mm, fill=0, stroke=1)
+            c.setFillColor(INK); fnt = "Sans"
+        fs = fit(t, 10.5, cw - 6.6 * mm, fnt); c.setFont(fnt, fs); c.drawString(ix + 6.2 * mm, iy - fs * 0.36, t)
+    yb -= rows * rh + 1.6 * mm
+    rule(c, x, yb); yb -= 2.6 * mm
+    fit_numbered(c, lx, yb, w, short_method(r), col, y + PAD - 1 * mm, "recipe")
 
 
-# ---------- container tile ----------
+def ingredient_name(t, cc):
+    return t
+
+
+# ---------- container ----------
 def container_tile(c, x, y, cont):
     cid, name, col, contents, prep = cont
     colr = HexColor(col)
     base(c, x, y)
-    yb = header(c, x, y, colr, str(cid), "Container", name, big_is_num=False)
+    yb = header_dot(c, x, y, colr, cid, name)
     lx = x + PAD; w = T - 2 * PAD
-    label(c, lx, yb - 4, "INSIDE"); yb -= 8
     fs = 14; ls = wrap(contents, "Serif", fs, w)
     while len(ls) > 2:
         fs -= 0.5; ls = wrap(contents, "Serif", fs, w)
     c.setFillColor(INK); c.setFont("Serif", fs)
     for j, l in enumerate(ls):
         c.drawString(lx, yb - fs - j * fs * 1.15, l)
-    yb -= len(ls) * fs * 1.15 + 3.5 * mm
-    c.setStrokeColor(LINE); c.setLineWidth(0.6); c.line(lx, yb + 1.4 * mm, lx + w, yb + 1.4 * mm)
-    label(c, lx, yb - 4, "HOW TO PREP"); yb -= 8
-    foot_y = y + PAD - 0.5 * mm
-    fit_numbered(c, lx, yb, w, prep, colr, foot_y + 9 * mm, fs=12, kind='container')
-    c.setStrokeColor(LINE); c.line(lx, foot_y + 6 * mm, lx + w, foot_y + 6 * mm)
-    c.setFillColor(MUTED); c.setFont("Sans", 7.2)
-    c.drawString(lx, foot_y + 2.3 * mm, "Cool within 1 hour · freeze in cubes")
-    c.drawString(lx, foot_y - 0.6 * mm, "Bag, label and date · keeps 3 months")
+    yb -= len(ls) * fs * 1.15 + 2.6 * mm
+    rule(c, x, yb); yb -= 2.6 * mm
+    fit_numbered(c, lx, yb, w, prep, colr, y + PAD - 1 * mm, "container")
 
 
-# ---------- info tiles ----------
+# ---------- info ----------
 def title_tile(c, x, y):
     c.setFillColor(INK); c.rect(x, y, T, T, fill=1, stroke=0)
     lx = x + PAD; top = y + T - PAD
-    spaced(c, lx, top - 6, "BATCH COOKING · 12 MONTHS+", "SansS", 5.6, 1.1, HexColor("#E0A48F"))
-    c.setFillColor(PAPER); c.setFont("Serif", 22); c.drawString(lx, top - 27, "Freezer")
-    c.setFillColor(HexColor("#E0A48F")); c.saveState(); c.translate(lx, top - 48); c.skew(0, 12)
-    c.setFont("SerifR", 22); c.drawString(0, 0, "Kitchen"); c.restoreState()
-    qs = 21 * mm; qr(c, BASE, x + T - PAD - qs, top - qs, qs)
-    steps = ["Cook each container's mix, no salt or sugar.", "Cool it within 1 hour.",
-             "Freeze in ice cube trays, then bag and date.", "Pick a meal magnet.",
-             "Heat 2 cubes of each until piping hot.", "Cool and serve."]
-    yy = top - 66
-    c.setStrokeColor(HexColor("#4A423B")); c.setLineWidth(0.6); c.line(lx, yy + 3, x + T - PAD, yy + 3)
-    step_h = (yy - (y + PAD + 5 * mm)) / len(steps)
-    for k, s in enumerate(steps, 1):
-        fs = fit(s, 9.6, T - 2 * PAD - 5 * mm)
-        cy = yy - step_h * (k - 0.5)
-        c.setFillColor(HexColor("#E0A48F")); c.setFont("SansS", fs); c.drawString(lx, cy - fs * 0.36, str(k))
-        c.setFillColor(PAPER); c.setFont("Sans", fs); c.drawString(lx + 4.6 * mm, cy - fs * 0.36, s)
-        if k < len(steps):
-            c.setStrokeColor(HexColor("#3A332D")); c.line(lx, cy - step_h / 2, x + T - PAD, cy - step_h / 2)
-    c.setFillColor(HexColor("#B8AEA3")); c.setFont("Sans", 7)
-    c.drawString(lx, y + PAD - 1 * mm, "Full guide: cristianlupudesign.github.io/baby-meals")
+    c.setFillColor(PAPER); c.setFont("Serif", 26); c.drawString(lx, top - 24, "Freezer")
+    c.setFillColor(ROSE); c.saveState(); c.translate(lx, top - 50); c.skew(0, 12)
+    c.setFont("SerifR", 26); c.drawString(0, 0, "Kitchen"); c.restoreState()
+    c.setFillColor(PAPER); c.setFont("Sans", 10.5)
+    c.drawString(lx, top - 70, "12 containers · 30 meals")
+    qs = 34 * mm; qr(c, BASE, x + T - PAD - qs, y + PAD, qs)
+    c.setFillColor(ROSE); c.setFont("SansS", 10.5)
+    c.drawString(lx, y + PAD + qs - 12, "Scan for")
+    c.drawString(lx, y + PAD + qs - 25, "every recipe")
+    c.drawString(lx, y + PAD + qs - 38, "and method")
 
 
-def list_tile(c, x, y, col, lab, title, items):
+def how_tile(c, x, y):
     base(c, x, y)
-    yb = header(c, x, y, col, "", lab, title, big_is_num=True)
-    lx = x + PAD; w = T - 2 * PAD
-    yb -= 1 * mm
-    bottom = y + PAD
-    n = len(items); rh = (yb - bottom) / n
-    for k, (b, t) in enumerate(items):
-        top = yb - k * rh
-        fs = 8.2; txt = (b + " " + t).strip()
-        ls = wrap(txt, "Sans", fs, w - 4 * mm)
-        while len(ls) * fs * 1.22 > rh - 2 and fs > 6.5:
-            fs -= 0.2; ls = wrap(txt, "Sans", fs, w - 4 * mm)
-        cy = top - rh / 2; ty = cy + (len(ls) - 1) * fs * 1.22 / 2 - fs * 0.36
-        c.setFillColor(col); c.circle(lx + 1 * mm, cy, 1 * mm, fill=1, stroke=0)
-        # bold lead word(s)
-        for j, l in enumerate(ls):
-            xx = lx + 4 * mm
-            if j == 0 and b and l.startswith(b):
-                c.setFillColor(INK); c.setFont("SansS", fs); c.drawString(xx, ty, b)
-                xx += stringWidth(b + " ", "SansS", fs); l = l[len(b):].lstrip()
-            c.setFillColor(INK); c.setFont("Sans", fs); c.drawString(xx, ty - j * fs * 1.22, l)
-        if k < n - 1:
-            c.setStrokeColor(LINE); c.setLineWidth(0.5); c.line(lx, top - rh, lx + w, top - rh)
-
-
-def header_plain(c, x, y, col, lab, title):
-    """Header band without a big number (shift text left)."""
-    top = y + T
-    c.setFillColor(col); c.roundRect(x + INSET, top - INSET - HB, T - 2 * INSET, HB, 2 * mm, fill=1, stroke=0)
-    tx = x + INSET + 4 * mm; cy = top - INSET - HB / 2
-    spaced(c, tx, cy + 6.6, lab.upper(), "SansS", 5.6, 1.0, white)
-    c.setFillColor(white); c.setFont("Serif", fit(title, 13.5, T - 2 * INSET - 8 * mm, "Serif")); c.drawString(tx, cy - 8.2, title)
-    return top - INSET - HB - 4.2 * mm
-
-
-def safety_tile(c, x, y):
-    items = [("Reheat", "until piping hot all the way through, then cool before serving."),
-             ("Never refreeze", "food that has thawed."),
-             ("Rice:", "cool within 1 hour, reheat only once."),
-             ("No honey", "before age 1. No whole nuts."),
-             ("Quarter", "grapes and cherry tomatoes."),
-             ("No added", "salt or sugar. Use no-salt tinned beans.")]
-    _list(c, x, y, HexColor("#B4472F"), "Read me", "Stay safe", items)
+    yb = header_text(c, x, y, INK, "How it works")
+    steps = ["Cook each container, no salt or sugar.",
+             "Cool within 1 hour, freeze in cubes, bag and date.",
+             "Numbers on a meal = the containers to use.",
+             "Heat until piping hot, then cool before serving.",
+             "Never refreeze. Keeps 3 months."]
+    fit_numbered(c, x + PAD, yb - 1 * mm, T - 2 * PAD, steps, HexColor("#B4472F"), y + PAD - 1 * mm, "how", fs=12)
 
 
 def dontfreeze_tile(c, x, y):
-    items = [("Cooked egg", "goes rubbery. Make it fresh."),
-             ("Cucumber, lettuce, raw tomato", "go mushy. Serve fresh."),
-             ("Potato chunks", "go grainy. Freeze as mash."),
-             ("Yoghurt, soft cheese", "separate. Add fresh after heating."),
-             ("Rice, pasta, couscous, oats", "cook fresh each time.")]
-    _list(c, x, y, HexColor("#4E6577"), "Keep out of the freezer", "Don't freeze", items)
-
-
-def _list(c, x, y, col, lab, title, items):
     base(c, x, y)
-    yb = header_plain(c, x, y, col, lab, title) - 1 * mm
-    lx = x + PAD; w = T - 2 * PAD; bottom = y + PAD
-    n = len(items); rh = (yb - bottom) / n
-    for k, (b, t) in enumerate(items):
-        top = yb - k * rh; cy = top - rh / 2; fs = 9.6
-        full = f"{b} {t}"
-        ls = wrap(full, "Sans", fs, w - 4 * mm)
-        while len(ls) * fs * 1.22 > rh - 2 and fs > 6.5:
-            fs -= 0.2; ls = wrap(full, "Sans", fs, w - 4 * mm)
-        lh = fs * 1.22; ty = cy + (len(ls) - 1) * lh / 2 - fs * 0.36
-        c.setFillColor(col); c.circle(lx + 1 * mm, cy, 1 * mm, fill=1, stroke=0)
-        remaining_bold = b
-        for j, l in enumerate(ls):
-            xx = lx + 4 * mm; yy = ty - j * lh
-            words = l.split(" "); bold_part = []
-            while words and remaining_bold and remaining_bold.startswith(words[0]):
-                bold_part.append(words.pop(0)); remaining_bold = remaining_bold[len(bold_part[-1]):].lstrip()
-            if bold_part:
-                bt = " ".join(bold_part); c.setFillColor(INK); c.setFont("SansS", fs); c.drawString(xx, yy, bt)
-                xx += stringWidth(bt + " ", "SansS", fs)
-            c.setFillColor(INK); c.setFont("Sans", fs); c.drawString(xx, yy, " ".join(words))
-        if k < n - 1:
-            c.setStrokeColor(LINE); c.setLineWidth(0.5); c.line(lx, top - rh, lx + w, top - rh)
-
-
-# ---------- wipe-clean tiles ----------
-def stock_tile(c, x, y):
-    base(c, x, y)
-    yb = header_plain(c, x, y, INK, "Wipe-clean · tick a box per bag", "Freezer stock") - 0.5 * mm
-    lx = x + PAD; w = T - 2 * PAD; rh = (yb - (y + PAD - 1 * mm)) / 12
-    s = 3.1 * mm; g = 1.1 * mm
-    for k, (cid, name, col, _, _) in enumerate(CONTAINERS):
-        cy = yb - k * rh - rh / 2; colr = HexColor(col)
-        dotnum(c, lx + 1.9 * mm, cy, 1.9 * mm, cid, colr, fs=5.6)
-        c.setFillColor(INK); c.setFont("SansS", fit(name, 8.6, 30 * mm, "SansS")); c.drawString(lx + 5 * mm, cy - 3, name)
-        bx = lx + w - 6 * (s + g) + g
-        c.setStrokeColor(colr); c.setLineWidth(0.7)
-        for j in range(6):
-            c.roundRect(bx + j * (s + g), cy - s / 2, s, s, 0.6 * mm, fill=0, stroke=1)
-
-
-def week_tile(c, x, y):
-    base(c, x, y)
-    yb = header_plain(c, x, y, HexColor("#5E7F5E"), "Wipe-clean · write the meal number", "This week") - 0.5 * mm
-    lx = x + PAD; w = T - 2 * PAD
-    days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-    hx = [lx + 9 * mm, lx + 9 * mm + (w - 9 * mm) / 3, lx + 9 * mm + 2 * (w - 9 * mm) / 3]
-    c.setFillColor(MUTED); c.setFont("SansS", 5.8)
-    for t, xx in zip(["BREAKFAST", "LUNCH", "DINNER"], hx):
-        c.drawString(xx, yb - 5, t)
-    yb -= 8; rh = (yb - (y + PAD)) / 7
-    for k, d in enumerate(days):
+    yb = header_text(c, x, y, HexColor("#4E6577"), "Don't freeze")
+    items = [("Cooked egg", "make fresh"), ("Cucumber, lettuce, raw tomato", "serve fresh"),
+             ("Potato chunks", "freeze as mash"), ("Yoghurt", "add after heating"),
+             ("Rice, pasta, oats", "cook fresh")]
+    lx = x + PAD; w = T - 2 * PAD; n = len(items); rh = (yb - (y + PAD)) / n
+    for k, (a, b) in enumerate(items):
         top = yb - k * rh; cy = top - rh / 2
-        c.setFillColor(INK); c.setFont("Serif", 9.5); c.drawString(lx, cy - 3.2, d)
-        c.setStrokeColor(LINE); c.setLineWidth(0.7)
-        for xx in hx:
-            c.line(xx, cy - 3.5, xx + (w - 9 * mm) / 3 - 2.5 * mm, cy - 3.5)
-
-
-def shop_tile(c, x, y):
-    base(c, x, y)
-    yb = header_plain(c, x, y, HexColor("#C98A3D"), "Wipe-clean", "To buy & to cook") - 1 * mm
-    lx = x + PAD; w = T - 2 * PAD; cwid = (w - 4 * mm) / 2
-    c.setFillColor(MUTED); c.setFont("SansS", 5.8)
-    c.drawString(lx, yb - 5, "TO BUY"); c.drawString(lx + cwid + 4 * mm, yb - 5, "TO COOK")
-    yb -= 8; n = 10; rh = (yb - (y + PAD)) / n
-    for col_i in range(2):
-        xx = lx + col_i * (cwid + 4 * mm)
-        for k in range(n):
-            cy = yb - k * rh - rh / 2
-            c.setStrokeColor(HexColor("#C98A3D")); c.setLineWidth(0.7)
-            c.roundRect(xx, cy - 1.4 * mm, 2.8 * mm, 2.8 * mm, 0.5 * mm, fill=0, stroke=1)
-            c.setStrokeColor(LINE); c.line(xx + 4.4 * mm, cy - 1.4 * mm, xx + cwid, cy - 1.4 * mm)
+        fa = fit(a, 11, w - 4.4 * mm, "SansS")
+        c.setFillColor(HexColor("#4E6577")); c.circle(lx + 1.2 * mm, cy + 5.5, 1.2 * mm, fill=1, stroke=0)
+        c.setFillColor(INK); c.setFont("SansS", fa); c.drawString(lx + 4.4 * mm, cy + 1.6, a)
+        c.setFillColor(MUTED); c.setFont("Sans", 9.6); c.drawString(lx + 4.4 * mm, cy - 9.6, b)
+        if k < n - 1:
+            c.setStrokeColor(LINE); c.setLineWidth(0.6); c.line(lx, top - rh, lx + w, top - rh)
 
 
 # ---------- sheet ----------
 def sheet(path, W, H, cols, rows, tiles, name):
     c = canvas.Canvas(path, pagesize=(W, H)); c.setTitle(f"Freezer Kitchen magnets · {name}")
     gw, gh = cols * T, rows * T
-    mx, my = (W - gw) / 2, (H - gh) / 2
+    mx, my = (W - gw) / 2, 18 * mm        # grid pinned near the top so spare sheet stays in one piece
+    gy0 = H - my - gh
     c.setFillColor(white); c.rect(0, 0, W, H, fill=1, stroke=0)
     for i, fn in enumerate(tiles):
-        col_i, row = i % cols, i // cols
-        x = mx + col_i * T; y = H - my - (row + 1) * T
+        x = mx + (i % cols) * T; y = H - my - (i // cols + 1) * T
         fn(c, x, y)
-    # cut lines: hairline through the grid + marks into the margin
     c.setStrokeColor(HexColor("#9A8F84")); c.setLineWidth(0.25)
     for a in range(cols + 1):
-        X = mx + a * T; c.line(X, my, X, H - my)
+        X = mx + a * T; c.line(X, gy0, X, H - my)
     for b in range(rows + 1):
-        Y = my + b * T; c.line(mx, Y, W - mx, Y)
+        Y = gy0 + b * T; c.line(mx, Y, W - mx, Y)
     c.setStrokeColor(INK); c.setLineWidth(0.5)
     for a in range(cols + 1):
-        X = mx + a * T; c.line(X, 0, X, my - 1.5 * mm); c.line(X, H - my + 1.5 * mm, X, H)
+        X = mx + a * T; c.line(X, H - my + 1.5 * mm, X, H); c.line(X, gy0 - 1.5 * mm, X, max(0, gy0 - 12 * mm))
     for b in range(rows + 1):
-        Y = my + b * T; c.line(0, Y, mx - 1.5 * mm, Y); c.line(W - mx + 1.5 * mm, Y, W, Y)
-    lab = f"{name}  ·  {W/cm:.0f} × {H/cm:.0f} cm magnetic sheet  ·  {len(tiles)} magnets, 9 × 9 cm  ·  print at 100%"
-    ly = H - my + 4 * mm if my > 9 * mm else 2 * mm
-    lw = stringWidth(lab, "SansS", 7.5) + 6 * mm
+        Y = gy0 + b * T; c.line(0, Y, mx - 1.5 * mm, Y); c.line(W - mx + 1.5 * mm, Y, W, Y)
+    lab = f"{name}  ·  {W/cm:.0f} × {H/cm:.0f} cm sheet  ·  {len(tiles)} magnets, 8 × 8 cm  ·  print at 100%"
+    ly = H - my + 6 * mm; lw = stringWidth(lab, "SansS", 7.5) + 6 * mm
     c.setFillColor(white); c.rect(W / 2 - lw / 2, ly - 2 * mm, lw, 6 * mm, fill=1, stroke=0)
-    c.setFillColor(INK); c.setFont("SansS", 7.5)
-    c.drawCentredString(W / 2, ly, lab)
+    c.setFillColor(INK); c.setFont("SansS", 7.5); c.drawCentredString(W / 2, ly, lab)
+    if gy0 > 30 * mm:
+        c.setFillColor(MUTED); c.setFont("Sans", 9)
+        c.drawCentredString(W / 2, gy0 - 20 * mm, f"Spare magnetic sheet below this line: about {W/cm:.0f} × {(gy0 - 12*mm)/cm:.0f} cm")
+        c.setStrokeColor(MUTED); c.setDash(3, 3); c.line(0, gy0 - 12 * mm, W, gy0 - 12 * mm); c.setDash()
     c.showPage(); c.save()
     return path
 
@@ -340,19 +240,15 @@ def main():
     R = {r[0]: r for r in RECIPES}
     rt = lambda n: (lambda c, x, y: recipe_tile(c, x, y, R[n]))
     ct = lambda i: (lambda c, x, y: container_tile(c, x, y, C[i]))
-    a_tiles = [rt(n) for n in range(1, 28)]
-    b_tiles = ([title_tile, safety_tile, dontfreeze_tile]
-               + [ct(i) for i in range(1, 13)]
-               + [rt(28), rt(29), rt(30)]
-               + [stock_tile, week_tile, shop_tile])
-    import tempfile
-    for _ in range(1):   # measuring pass: find the size that fits every tile of each kind
-        sheet(tempfile.mktemp(suffix=".pdf"), 30 * cm, 87 * cm, 3, 9, a_tiles, "m")
-        sheet(tempfile.mktemp(suffix=".pdf"), 28 * cm, 67 * cm, 3, 7, b_tiles, "m")
-    FIXED.update(SEEN); print("uniform sizes", FIXED)
-    pa = sheet(f"{OUT}/Freezer_Kitchen_Magnets_Sheet_A_30x87cm.pdf", 30 * cm, 87 * cm, 3, 9, a_tiles, "SHEET A OF 2 · RECIPES 1–27")
-    pb = sheet(f"{OUT}/Freezer_Kitchen_Magnets_Sheet_B_28x67cm.pdf", 28 * cm, 67 * cm, 3, 7, b_tiles, "SHEET B OF 2 · CONTAINERS, RECIPES 28–30, GUIDES")
-    print(pa); print(pb)
+    a_tiles = [rt(n) for n in range(1, 31)]
+    b_tiles = [title_tile, how_tile, dontfreeze_tile] + [ct(i) for i in range(1, 13)]
+    jobs = [(f"{OUT}/Freezer_Kitchen_Magnets_Sheet_A_30x87cm.pdf", 30 * cm, 87 * cm, 3, 10, a_tiles, "SHEET A OF 2 · RECIPES 1–30"),
+            (f"{OUT}/Freezer_Kitchen_Magnets_Sheet_B_28x67cm.pdf", 28 * cm, 67 * cm, 3, 5, b_tiles, "SHEET B OF 2 · CONTAINERS & GUIDES")]
+    for j in jobs:                                    # measuring pass
+        sheet(tempfile.mktemp(suffix=".pdf"), *j[1:])
+    FIXED.update(SEEN); print("uniform sizes", {k: round(v, 1) for k, v in FIXED.items()})
+    for j in jobs:
+        print(sheet(*j))
 
 
 if __name__ == "__main__":
