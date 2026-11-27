@@ -32,8 +32,17 @@ def header_num(c, x, y, col, num, name):
     cy = band(c, x, y, col); bx = x + INSET + 3 * mm
     c.setFillColor(white); c.saveState(); c.translate(bx, cy - 6.3); c.skew(0, 12)
     c.setFont("SerifR", 19); c.drawString(0, 0, num); c.restoreState()
-    tx = bx + 10.5 * mm; tw = x + T - INSET - 2.5 * mm - tx
-    fs = fit(name, 15, tw, "Serif"); c.setFont("Serif", fs); c.drawString(tx, cy - fs * 0.34, name)
+    tx = bx + (10.5 if len(num) < 3 else 12) * mm; tw = x + T - INSET - 2.5 * mm - tx
+    fs = fit(name, 15, tw, "Serif")
+    if fs >= 12.5 or " " not in name:
+        c.setFont("Serif", fs); c.drawString(tx, cy - fs * 0.34, name)
+    else:
+        from build_print import wrap2
+        ls = wrap2(name, "Serif", 12, tw)
+        fs = min(12, min(fit(l, 12, tw, "Serif") for l in ls)); lh = fs * 1.08
+        c.setFont("Serif", fs)
+        for j, l in enumerate(ls):
+            c.drawString(tx, cy + lh / 2 - fs * 0.34 - j * lh, l)
     return y + T - INSET - HB - 3.6 * mm
 
 
@@ -118,7 +127,7 @@ def recipe_tile(c, x, y, r):
     num, name, cat, cons, extras, fresh, finish = r
     col = HexColor(CATS[cat])
     base(c, x, y)
-    yb = header_num(c, x, y, col, f"{num:02d}", name)
+    yb = header_num(c, x, y, col, f"{num:02d}" if isinstance(num, int) else str(num), name)
     lx = x + PAD; w = T - 2 * PAD
     items = [(t, cc) for t, cc in ingredient_lines(r) if not t.lower().startswith("pinch")]
     rows = (len(items) + 1) // 2; rh = 6.4 * mm; cw = w / 2
@@ -205,7 +214,7 @@ def dontfreeze_tile(c, x, y):
 
 
 # ---------- sheet ----------
-def sheet(path, W, H, cols, rows, tiles, name):
+def sheet(path, W, H, cols, rows, tiles, name, footer=None):
     c = canvas.Canvas(path, pagesize=(W, H)); c.setTitle(f"Freezer Kitchen magnets · {name}")
     gw, gh = cols * T, rows * T
     mx, my = (W - gw) / 2, 18 * mm        # grid pinned near the top so spare sheet stays in one piece
@@ -232,6 +241,12 @@ def sheet(path, W, H, cols, rows, tiles, name):
         c.setFillColor(MUTED); c.setFont("Sans", 9)
         c.drawCentredString(W / 2, gy0 - 20 * mm, f"Spare magnetic sheet below this line: about {W/cm:.0f} × {(gy0 - 12*mm)/cm:.0f} cm")
         c.setStrokeColor(MUTED); c.setDash(3, 3); c.line(0, gy0 - 12 * mm, W, gy0 - 12 * mm); c.setDash()
+    if footer:
+        c.setFillColor(INK); c.setFont("SansS", 8)
+        fs = 8
+        while stringWidth(footer, "SansS", fs) > W - 10 * mm and fs > 5:
+            fs -= 0.25
+        c.setFont("SansS", fs); c.drawCentredString(W / 2, gy0 - 14 * mm, footer)
     c.showPage(); c.save()
     return path
 
