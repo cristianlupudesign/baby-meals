@@ -64,7 +64,7 @@ FRESH = {
 
 # num, name, category, containers, extras, fresh, finish
 RECIPES = [
-    (1, "Chicken Korma", "Chicken", [8, 3], ["Pinch of cumin", "Yoghurt (after heating)"], "rice",
+    (1, "Chicken Korma", "Chicken", [8, 3], ["Pinch of cumin", "Plain yoghurt"], "rice",
      "Take off the heat and stir in a spoon of plain yoghurt."),
     (2, "Chicken Cheesy Bake", "Chicken", [8, 7, 1], [], "mash", "Spoon over the mash and stir through."),
     (3, "Chicken Veg Rice", "Chicken", [8, 1, 5], [], "rice", "Stir through the rice."),
